@@ -168,21 +168,38 @@ console.log(sliceOff$);
 // payment option, and hide and show the payment sections in the form accordingly.
 
 
+
 $paymentMethod.on('change', () => {
-  if ($paymentMethod.val() === 'paypal') {
-      $('#credit-card','#bitcoin').hide();
-      $('#paypal').show();
-} else if ($paymentMethod.val() === 'bitcoin'){
-      $('#credit-card','#paypal').hide();
-      $('#bitcoin').show();
-  } else {
-      $('#credit-card').show();
-      $('#paypal','#bitcoin').hide();
-      }
-})
+	if ($paymentMethod.val() === 'paypal') {
+		$('#credit-card').hide();
+		$('#bitcoin').hide();
+		$('#paypal').show();
+  } else if ($paymentMethod.val() === 'bitcoin'){
+		$('#credit-card').hide();
+		('#paypal').hide();
+		$('#bitcoin').show();
+	} else {
+		$('#credit-card').show();
+		$('#paypal').hide();
+		$('#bitcoin').hide();
+		}
+  })
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // commit test
-// testing 
+
 
 
 
