@@ -1,4 +1,3 @@
-
 //************GLOBAL VARIABLES**************/
 const $jobRoleSelector = $('select[id="title"]');
 const $jobRoleOther = $('input[id="other-title"]');
@@ -7,26 +6,20 @@ let $shirtTheme;
 const $colors = $('#colors-js-puns');
 const $paymentMethod = $('#payment');
 
-
+// hide colors in the t-shirt sections 
 $colors.hide();
 
-
-//************STEP ONE*********************/
 //*********Focus on the first field********
 //Put the first field in the `focus` state
 $( document ).ready(function() {
     $( "#name" ).focus();
   });
 
-//************STEP TWO********************
 //**********Job Role Section**************
 // "Your job role" text field appears when user 
 // selects "Other" from the Job Role menu
-
-//   In your JavaScript file, target the ‘Other’ input field, 
-//   and hide it initially, so that it will display if JavaScript 
+//   it is not shown initially, so that it will display if JavaScript 
 //   is disabled, but be hidden initially with JS.
-
 
 //The on() method attaches one or more event handlers for 
 //the selected elements and child elements.
@@ -34,8 +27,6 @@ $( document ).ready(function() {
 // //$("p").on("click", function(){
 //     alert("The paragraph was clicked.");
 //   });
-
-// /////////////Is there a better way to do this?/
 $jobRoleSelector.on('change', e => {
 	if(e.target.value === "other")
 		$jobRoleOther.show();
@@ -43,11 +34,7 @@ $jobRoleSelector.on('change', e => {
 	$jobRoleOther.hide();
 });
 $('#other-title').hide();
-/////////////////////////////////////////////////
 
-
-
-//************STEP THREE******************
 //**********T-Shirt Section***************
 // Until a theme is selected from the “Design” menu, 
 // no color options appear in the “Color” drop down 
@@ -55,8 +42,7 @@ $('#other-title').hide();
 // When a new theme is selected from the "Design" menu, the 
 // "Color" field and drop down menu is updated
 
-
-  var shirtSelected = false;
+        var shirtSelected = false;
   $('#design').change(function(){
   	if ($('#design option:selected').val() === "js puns") {
   		$('#colors-js-puns').show();
@@ -80,94 +66,81 @@ $('#other-title').hide();
  console.log(Puns)
 
 
-////////////////////STEP FOUR//////////////////////////////////////////////////
-////////////////////ACTIVITY SECTION///////////////////////////////////////////
-// Creating an element to display the total activity cost
-// Create a DOM element, store it in a global variable and append it to the 
-// `.activity` section. You can view the elements tab in the Chrome DevTools 
-// to check that your element is in the DOM. Create a global variable to store 
-// total activity cost — initially set to 0 — don't use const since you want to
-//  update this as needed.
-////////////////////////////////////////////////////////////////////////////////
-let costOfActivity = 0;
-const activity = $('.activities');
-const acttivityCostDiv = $(`<div></div>`);
-acttivityCostDiv.appendTo(activity);
 
+////////////////////ACTIVITY SECTION///////////////////////////////////////////
+
+var jsFrameworks = $("input[name='js-frameworks'");
+var jsLibraries = $("input[name='js-libs']");
+var express = $("input[name='express']");
+var nodeJS = $("input[name='node']");
+
+// Create an element to display the total activity cost
+// Create a DOM element, which stores it in a global variable and append it to the 
+// `.activity` section
+//Create a global variable to store total activity cost
+
+const acttivityCostDiv = $(`<div id = "total"></div>`);
+const activity = $('.activities');
+acttivityCostDiv.appendTo(activity);
+let costOfActivity = 0;
 
 /////////Listening for changes in the activity section/////////////////////////
-// Add a change event listener to the activity section.
-//  Inside the listener, it will be helpful to have a few
-//   variables handy for referencing values. For example:
-// ● The DOM `input` element that was just clicked.
-// ● The text content of the above `input` element’s parent `label` element.
-// ● NOTE: It is helpful at this point to log out the two variables
-//  you just created to double
-// check that their values are what you think they are. Remember, 
-// you’ll need to click on the checkboxes in the Activity section to
-//  run the code in this listener, including your log statements.
-//////////////////////////////////////////////////////////////////////////////
+
+// Updating and displaying the total activity cost 
+//The index of the dollar sign ‘$’ in the label text from 
+//the variable textOfParentOfClicked
+//Using the method  `.slice()` and the index
+// of the dollar sign it targets the cost at the end of the label string.
+// by using parseInt the string is turned into a number so the total cost
+// of activites can be calculated depending on what the user clicks
+// activites that are conflicts will then be diabled. 
 
 activity.on('change', (e) => {  
 let clickedActivity = $(e.target); 
-
 console.log("this was just clicked in the activity section")
 let textOfParentOfClicked  = clickedActivity.parent().text();
 console.log(textOfParentOfClicked);
 console.log($(e.target));
-
-
-
 let searchTerm = '$';
 let indexOfFirst$ = textOfParentOfClicked.indexOf(searchTerm);
-console.log(indexOfFirst$);
-
-// let slice = textOfParentOfClicked.slice() 
-
-let sliceOff$ = textOfParentOfClicked.indexOf(searchTerm, (indexOfFirst$ + 1));
-
-
-
-console.log(sliceOff$);
-
-
+// console.log(indexOfFirst$);
+let slice = textOfParentOfClicked.slice(indexOfFirst$ + 1) 
+let numberfyTheSlice = parseInt(slice);
+// let sliceOff$ = textOfParentOfClicked.indexOf(searchTerm, (indexOfFirst$ + 1));
+//cost = parseFloat(textOfParentOfClicked.slice(-3));
+console.log(numberfyTheSlice);
+//console.log(cost);
 // let costOfTheActivityJustClicked = indexOfFirst$.slice(1);
-//  console.log(costOfTheActivityJustClicked);
-
-
-
-
+  //console.log(costOfTheActivityJustClicked);
+  if (clickedActivity.is(':checked')){
+	costOfActivity = costOfActivity + numberfyTheSlice ;
+} else if ($(event.target).not(':checked')){
+	costOfActivity = costOfActivity - numberfyTheSlice;
+} console.log(costOfActivity);
+document.getElementById('total').innerHTML=`Total: $`+`${costOfActivity}`;
+if (jsLibraries.is(':checked')){
+	nodeJS.attr("disabled", true);
+} else if (nodeJS.is(':checked')){
+	jsLibraries.attr("disabled", true);
+}
+else {
+	jsLibraries.attr("disabled", false);
+	nodeJS.attr("disabled", false);
+}
+if (jsFrameworks.is(':checked')){
+	express.attr("disabled", true);
+} else if (express.is(':checked')){
+	jsFrameworks.attr("disabled", true);
+}
+else {
+	express.attr("disabled", false);
+	jsFrameworks.attr("disabled", false);
+	}
 });
 
-// Updating and displaying the total activity cost part 1
-// Let’s add a few more more helpful variables in the Activity section’s change listener:
-// ● The index of the dollar sign ‘$’ in the label text from the variable (that you declared
-// above).
-// ● The cost of the activity the was just clicked. Using a method like `.slice()` and the index
-// of the dollar sign, you can target the cost at the end of the label string.
-// ● NOTE: Again, it’s helpful here, after just a few lines of code, to log out your values to
-// ensure that they actually are what you think they are.
-// ● Now, you’ll want to take the cost from the variable above, which is currently a string
-// type, and turn it into a number type so you can use it in the basic arithmetic needed to
-// calculate the total cost of activities.
-// ● NOTE: Using the `typeof` operator to log out the type of your last variable can be very
-// helpful here.
-
-
-
-
-
-
-
-
-// Payment Section
-// Initially, the credit card section should be selected and displayed in the form,
-//  and the other two payment options should be hidden. The user should be able to 
-//  change payment options at any time, but shouldn’t be able to select the
-// “Select Payment Method” option. So you’ll need to check the currently selected 
-// payment option, and hide and show the payment sections in the form accordingly.
-
-
+// ********************Payment Section********************************************
+// Initially, the credit card section will displayed in the form,
+//  and the other two payment options will be hidden. 
 
 $paymentMethod.on('change', () => {
 	if ($paymentMethod.val() === 'paypal') {
@@ -176,7 +149,7 @@ $paymentMethod.on('change', () => {
 		$('#paypal').show();
   } else if ($paymentMethod.val() === 'bitcoin'){
 		$('#credit-card').hide();
-		('#paypal').hide();
+		$('#paypal').hide();
 		$('#bitcoin').show();
 	} else {
 		$('#credit-card').show();
@@ -184,23 +157,6 @@ $paymentMethod.on('change', () => {
 		$('#bitcoin').hide();
 		}
   })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// commit test
-
-
 
 
 
